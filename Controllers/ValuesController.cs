@@ -84,18 +84,20 @@ namespace Manager.Controllers
 
         [Authorize]
         [HttpGet(Name = "GetUser")]
-        [Route("userid")]
+        [Route("userid")]   
         public IActionResult GetUser()
         {
+            //string userId = User.Claims.FirstOrDefault(c => c. == ClaimTypes.NameIdentifier).Value;
+            //var objectclaims = User.Claims.ToList();
             string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            //string email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value;
+            string EmailAddress = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
             //string country = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Country).Value;
             //string surname = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Surname).Value;
             //string name = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
 
             var user = _userInfoRepository.GetUser(userId );
 
-            if (user == null)
+            if (userId == null)
             {
                 return NotFound();
             }
@@ -110,8 +112,112 @@ namespace Manager.Controllers
             //}
             var userWithoutTeachersResult = Mapper.Map<UserDto>(user);
             return Ok(userWithoutTeachersResult);
-
         }
+
+
+
+        [HttpPost("")]
+        //[Authorize]
+        
+        public IActionResult dskjflj([FromBody] UserDtoCreation uservariable)
+        {
+            //string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            var newuserinfo = _userInfoRepository.GetUser(uservariable.Id);
+
+            var finalUser = Mapper.Map<User>(uservariable);
+
+            if (newuserinfo.EducatorDetails == null && finalUser.EducatorDetails != null) { 
+          
+
+            newuserinfo.Description = finalUser.Description;
+            newuserinfo.Id = finalUser.Id;
+                //newuserinfo.EducatorDetails = new EducatorDetail() {
+                //    Name = finalUser.EducatorDetails.Name
+                //};
+
+                newuserinfo.EducatorDetails = finalUser.EducatorDetails;
+                    newuserinfo.EducatorDetails.Id = null;
+                newuserinfo.LearnerDetails = finalUser.LearnerDetails;
+            newuserinfo.Name = finalUser.Name;
+                if (!_userInfoRepository.Save())
+                {
+                    return StatusCode(500, "problem");
+                }
+            }
+            else if (newuserinfo.LearnerDetails == null && finalUser.LearnerDetails != null)
+            {
+              
+
+                newuserinfo.Description = finalUser.Description;
+                newuserinfo.Id = finalUser.Id; 
+                newuserinfo.LearnerDetails = finalUser.LearnerDetails;
+                newuserinfo.Name = finalUser.Name;
+                if (!_userInfoRepository.Save())
+                {
+                    return StatusCode(500, "problem");
+                }
+            }
+            return Ok();
+            //return CreatedAtRoute("GetUser", new
+            //{
+            //    id = createdUserToReturn.Id
+            //}, createdUserToReturn);
+        }
+
+
+
+
+        //CREATE CLASSROOM
+        [HttpPost("{userId}/classrooms")]
+        public IActionResult CreateClass(int userId, [FromBody]ClassroomDto classroomDetails)
+        {
+            User user = _context.Users.Where(x => x.Id == userId).Include(x => x.EducatorDetails).FirstOrDefault();
+            //Check for null etC
+            user.EducatorDetails.Classrooms.Add(
+                new Classroom()
+                {
+                    Name = classroomDetails.Name,
+                    Description = classroomDetails.Description,
+                }
+                );
+            //user.EducatorDetails.Enrollments.Add(newEnrollment);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        //[HttpPost("")]
+        //[Authorize]
+        //public IActionResult CreateUser()
+        ////public IActionResult CreateUser([FromBody] UserDtoCreation uservariable)
+        //        //{
+        //        string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+        //        var finalUser = Mapper.Map<User>(uservariable);
+
+        //        _userInfoRepository.AddUser(finalUser);
+
+
+
+        //            if (!_userInfoRepository.Save())
+        //            {
+        //                return StatusCode(500, "problem");
+        //    }
+
+        //    var createdUserToReturn = Mapper.Map<Models.UserDto>(finalUser);
+        //            return Ok();
+
+        //        return CreatedAtRoute("GetUser", new
+        //        {
+        //            id = createdUserToReturn.Id
+        //}, createdUserToReturn);
+        //}
+
+
+
+
+
+
+
 
 
 
@@ -161,3 +267,4 @@ namespace Manager.Controllers
         }
     }
 }
+

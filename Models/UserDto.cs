@@ -17,6 +17,5 @@ namespace Manager.Models
 
         public EducatorDetailsDto EducatorDetails { get; set; }
 
-
     }
 }

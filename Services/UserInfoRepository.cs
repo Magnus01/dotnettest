@@ -62,7 +62,9 @@ namespace Manager.Services
 
             if (_context.Users.FirstOrDefault(c => c.Id == userId) != null)
             {
-                return _context.Users.Where(c => c.Id == userId).FirstOrDefault();
+                return _context.Users.Where(c => c.Id == userId).Include(c => c.EducatorDetails).FirstOrDefault();
+
+                   
             }
             else
             {
