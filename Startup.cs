@@ -90,9 +90,10 @@ namespace Manager
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            //builder.WithOrigins("http://localhost:3000")
 
             app.UseCors(builder =>
-                builder.WithOrigins("http://localhost:3000")
+              builder.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
@@ -135,11 +136,16 @@ namespace Manager
                 //cfg.CreateMap<UserInfo.Entities.TAssignment, UserInfo.Models.TAssignmentsForUpdateDto>();
 
 
-                cfg.CreateMap<Manager.Entities.Classroom, Manager.Models.ClassroomDto>();
+                cfg.CreateMap<Manager.Entities.Classroom, Manager.Models.ClassroomDto>()
+                //.ForMember(x => x.Enrollment, opt => opt.Ignore())
+                .ForMember(x => x.EducatorDetail, opt => opt.Ignore())
+                .ForMember(x => x.EducatorDetailId, opt => opt.Ignore());
                 //cfg.CreateMap<UserInfo.Models.ClassroomsForCreationDto, UserInfo.Entities.Classroom>();
                 //cfg.CreateMap<UserInfo.Models.ClassroomsForUpdateDto, UserInfo.Entities.Classroom>();
                 //cfg.CreateMap<UserInfo.Entities.Classroom, UserInfo.Models.ClassroomsForUpdateDto>();
 
+
+                cfg.CreateMap<Entities.StudentInvitation, Models.StudentInvitationDto>();
 
                 //cfg.CreateMap<Entities.User, Models.LearnerDetailsDto>()
                 //        .ForMember(dest => dest.StudentNo, opt => opt.MapFrom(src => src.LearnerDetails.StudentNo));

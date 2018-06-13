@@ -11,9 +11,10 @@ using System;
 namespace WebAPIApplication.Migrations
 {
     [DbContext(typeof(UserInfoContext))]
-    partial class UserInfoContextModelSnapshot : ModelSnapshot
+    [Migration("20180414183150_addauthorization")]
+    partial class addauthorization
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

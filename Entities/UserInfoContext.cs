@@ -34,12 +34,16 @@ namespace Manager.Entities
 
         public DbSet<EducatorDetail> EducatorDetails { get; set; }
 
-        public DbSet<Enrollment> Enrollment { get; set; }
+        public DbSet<Enrollment> Enrollment { get; set; }   
 
         public DbSet<Classroom> Classroom { get; set; }
 
+        public DbSet<StudentInvitation> StudentInvitation { get; set; }
 
-            public UserInfoContext(DbContextOptions<UserInfoContext> options)
+        public DbSet<Assignment> Assignment { get; set; }
+
+
+        public UserInfoContext(DbContextOptions<UserInfoContext> options)
             : base(options)
         {
             Database.Migrate();

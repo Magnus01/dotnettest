@@ -14,6 +14,9 @@ namespace Manager.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+ 
+
+
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
@@ -23,6 +26,13 @@ namespace Manager.Entities
 
         public ICollection<Enrollment> Enrollment { get; set; }
             = new List<Enrollment>();
+
+
+        public ICollection<StudentInvitation> StudentInvitation { get; set; }
+            = new List<StudentInvitation>();
+
+        public ICollection<Assignment> Assignment { get; set; }
+      = new List<Assignment>();
 
         public EducatorDetail EducatorDetail { get; set; }
 

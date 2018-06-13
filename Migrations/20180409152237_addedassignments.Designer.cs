@@ -11,9 +11,10 @@ using System;
 namespace WebAPIApplication.Migrations
 {
     [DbContext(typeof(UserInfoContext))]
-    partial class UserInfoContextModelSnapshot : ModelSnapshot
+    [Migration("20180409152237_addedassignments")]
+    partial class addedassignments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -151,9 +152,6 @@ namespace WebAPIApplication.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Authorization")
-                        .HasMaxLength(200);
 
                     b.Property<string>("Description")
                         .HasMaxLength(200);

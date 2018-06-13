@@ -13,7 +13,7 @@ namespace Manager.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         
         [MaxLength(50)]
@@ -32,6 +32,8 @@ namespace Manager.Entities
 
         public ICollection<Enrollment> Enrollments { get; set; }
             = new List<Enrollment>();
+
+ 
 
     }
 }

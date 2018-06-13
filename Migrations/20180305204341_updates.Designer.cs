@@ -11,36 +11,15 @@ using System;
 namespace WebAPIApplication.Migrations
 {
     [DbContext(typeof(UserInfoContext))]
-    partial class UserInfoContextModelSnapshot : ModelSnapshot
+    [Migration("20180305204341_updates")]
+    partial class updates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Manager.Entities.Assignment", b =>
-                {
-                    b.Property<int>("AssignmentID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("BookId");
-
-                    b.Property<int>("ChapterId");
-
-                    b.Property<int>("ClassroomID");
-
-                    b.Property<string>("Date");
-
-                    b.Property<string>("Title");
-
-                    b.HasKey("AssignmentID");
-
-                    b.HasIndex("ClassroomID");
-
-                    b.ToTable("Assignment");
-                });
 
             modelBuilder.Entity("Manager.Entities.Classroom", b =>
                 {
@@ -140,9 +119,13 @@ namespace WebAPIApplication.Migrations
 
                     b.Property<string>("Email");
 
+                    b.Property<int>("LearnerDetailsId");
+
                     b.HasKey("StudentInvitationID");
 
                     b.HasIndex("ClassroomID");
+
+                    b.HasIndex("LearnerDetailsId");
 
                     b.ToTable("StudentInvitation");
                 });
@@ -151,9 +134,6 @@ namespace WebAPIApplication.Migrations
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Authorization")
-                        .HasMaxLength(200);
 
                     b.Property<string>("Description")
                         .HasMaxLength(200);
@@ -172,14 +152,6 @@ namespace WebAPIApplication.Migrations
                     b.HasIndex("LearnerDetailsId");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Manager.Entities.Assignment", b =>
-                {
-                    b.HasOne("Manager.Entities.Classroom", "Classroom")
-                        .WithMany("Assignment")
-                        .HasForeignKey("ClassroomID")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Manager.Entities.Classroom", b =>
@@ -208,6 +180,11 @@ namespace WebAPIApplication.Migrations
                     b.HasOne("Manager.Entities.Classroom", "Classroom")
                         .WithMany("StudentInvitation")
                         .HasForeignKey("ClassroomID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Manager.Entities.LearnerDetail", "LearnerDetails")
+                        .WithMany("StudentInvitations")
+                        .HasForeignKey("LearnerDetailsId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

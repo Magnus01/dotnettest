@@ -23,6 +23,9 @@ namespace Manager.Entities
         [MaxLength(200)]
         public string Description { get; set; }
 
+        [MaxLength(200)]
+        public string Authorization { get; set; }
+
         public LearnerDetail LearnerDetails { get; set; }
 
         public EducatorDetail EducatorDetails { get; set; }

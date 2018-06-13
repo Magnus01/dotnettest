@@ -13,6 +13,8 @@ namespace Manager.Models
 
         public string Description { get; set; }
 
+        public string Authorization { get; set; }
+
         public LearnerDetailsDto LearnerDetails { get; set; }
 
         public EducatorDetailsDto EducatorDetails { get; set; }
